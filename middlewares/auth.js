@@ -3,7 +3,6 @@ const Jwt = require("jsonwebtoken");
 const mongoCollections = require("../config/mongoCollections");
 const User = mongoCollections.users;
 module.exports = async (req, res, next) => {
-
     let token = req.headers["authorization"]?.split(" ")[1]
 
     Jwt.verify(token, jwtKey, async (err, data) => {

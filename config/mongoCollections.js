@@ -18,5 +18,6 @@ const getCollectionFn = (collection) => {
 /* Now, you can list your collections here: */
 module.exports = {
   cars : getCollectionFn('cars'),
-  users : getCollectionFn('users')
+  users : getCollectionFn('users'),
+  refresh_tokens : getCollectionFn('refresh_tokens')
 };

@@ -6,12 +6,35 @@ const path = require("path")
 const url = require("url")
 
 
-const base_url = "http://localhost:3001/images/";
 
-async function addCar(data) {
-    const carsCollection = await cars();
-    const insertInfo = await carsCollection.insertOne(data);
-    return data;
+const base_url = "http://localhost:3001/images/Portfolio-pic4.jpg";
+
+async function addCar(data, file) {
+    if (data.name == "" || data.name == null) {
+        return "Please Enter Name.."
+    }
+    else if (data.brand == "" || data.brand == null) {
+        return "Please Enter Brand.."
+    }
+    else if (data.price == "" || data.price == null) {
+        return "Please Enter Price.."
+    }
+    else if (data.color == "" || data.color == null) {
+        return "Please Enter Color.."
+    }
+    else {
+        const newpath = path.join(process.cwd(), "public/images", file.originalname)
+        newurl = url.pathToFileURL(newpath)
+        const carsCollection = await cars();
+        const insertInfo = await carsCollection.insertOne({
+            ...data,
+            image: file.originalname
+        });
+        console.log(file.originalname);
+
+        return insertInfo;
+
+    }
 }
 async function findCar(id) {
     const carsCollection = await cars();
@@ -28,13 +51,25 @@ async function findCar(id) {
     // base_url+item.image
     return data;
 }
-async function updateCar() {
+async function updateCar(id, data, file) {
     const carsCollection = await cars();
-    const data = await carsCollection.updateOne(
-        { name: 'GT' },
-        { $set: { price: 75000000 } }
-    )
-    return data;
+    console.log(id);
+
+    if (id) {
+        const updatedata = await carsCollection.updateOne(
+            { _id: new ObjectId(id) },
+            {
+                $set: {
+                    ...data,
+                    image: file.originalname
+                }
+            }
+        )
+        return updatedata;
+    } else {
+        return "Enter valid Id";
+    }
+
 }
 
 async function deleteCar(id) {
@@ -51,24 +86,26 @@ const upload = multer({
         },
 
         filename: function (req, file, callBack) {
-            callBack(null, file.originalname)
+            callBack(null, file.originalname )
         }
     }),
     fileFilter: function (req, file, callback) {
         var file_type = path.extname(file.originalname);
         if (file_type !== '.png' && file_type !== '.jpg') {
             return callback('Only .png and .jpg Image allowed!')
-        } 
+        }
         callback(null, true)
     },
-    limits:{
+    limits: {
         fileSize: 1024 * 200
     }
 }).single("car_file")
 
 async function uplode_image(id, file) {
+    // console.log(file);
     const carsCollection = await cars();
-    const newpath = path.join(process.cwd(),"public/images", file.originalname)
+    console.log(file.originalname)
+    const newpath = path.join(process.cwd(), "public/images", file.originalname)
     newurl = url.pathToFileURL(newpath)
     const data = await carsCollection.updateOne(
         {
@@ -80,12 +117,10 @@ async function uplode_image(id, file) {
             }
         }
     )
-    // console.log (newurl.href)
     return ({
         message: "File Uploaded",
         url: newurl.href
     })
-
 
 }
 
