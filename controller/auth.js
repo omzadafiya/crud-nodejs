@@ -31,9 +31,9 @@ async function login(data) {
         console.log(findToken)
 
         if (findToken == null) {
-            const deleteData = await rTokenCollection.deleteMany({
-                userId: insertInfo._id
-            });
+            // const deleteData = await rTokenCollection.deleteMany({
+            //     userId: insertInfo._id
+            // });
             const insertToken = await rTokenCollection.insertOne({
                 token: Rtoken,
                 userId: insertInfo._id
@@ -41,9 +41,9 @@ async function login(data) {
             return { token: token, Rtoken: Rtoken };
         }
         else {
-            const deleteData = await rTokenCollection.deleteMany({
-                userId: insertInfo._id
-            });
+            // const deleteData = await rTokenCollection.deleteMany({
+            //     userId: insertInfo._id
+            // });
             Rtoken = suid(64)
             const insertToken = await rTokenCollection.insertOne({
                 token: Rtoken,
@@ -56,8 +56,56 @@ async function login(data) {
     }
 }
 
+async function getRefreshToken(data) {
+    const rTokenCollection = await Refresh_token();
+    const findToken = await rTokenCollection.findOne({
+        token: data.Rtoken,
+        userId: new ObjectId(data.userId)
+    })
+    if (findToken) {
+        const userCollection = await User();
+        const userInfo = await userCollection.findOne(
+            {
+                _id: new ObjectId(data.userId),
+            }
+        )
+        let jwtData = {
+            email: userInfo.email,
+            password: userInfo.password
+        }
+        let token = Jwt.sign(jwtData, jwtKey, { expiresIn: "24h" })
+        const Rtoken = suid(64)
+        const updateData = await rTokenCollection.updateOne(
+            {
+                userId: new ObjectId(data.userId)
+            },
+            {
+                $set: {
+                    token: Rtoken
+                }
+            }
+        )
+        return { token: token, Rtoken: Rtoken };
+    }
+    else {
+        return "In Valid Token";
+    }
+}
+async function logout(data) {
+    const rTokenCollection = await Refresh_token();
+    const deleateData = await rTokenCollection.deleteOne(
+        {
+            userId: new ObjectId(data.userId),
+            token: data.token
+        }
+    )
+    return "Logout successfully"
+}
+
 module.exports = {
     register,
     login,
+    getRefreshToken,
+    logout
 };
 

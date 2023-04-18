@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controller/auth');
 const path = require('path');
+
 router.post('/register', async (req, resp) => {
     let data = await authController.register(req.body)
     resp.send(data)
 });
-router.get('/file/:fileName', async (req,resp) =>{
-    resp.sendFile(path.join(__dirname+'/../public/images/'+req?.params?.fileName));
+router.get('/file/:fileName', async (req, resp) => {
+    resp.sendFile(path.join(__dirname + '/../public/images/' + req?.params?.fileName));
 });
 
 router.post('/login', async (req, resp) => {
@@ -22,9 +23,20 @@ router.post('/login', async (req, resp) => {
         resp.status(409).send(data)
     }
 });
-
-router.post('/logout',async (req,resp) => {
-    let data = await authController.logout(req.body)
+router.get('/refresh_token', async (req, resp) => {
+    let data = await authController.getRefreshToken(req.body)
+    if (data.token) {
+        resp.json({
+            data
+        })
+    }
+    else {
+        resp.status(409).send(data)
+    }
 });
+router.post('/logout', async (req, resp) => {
+    let data = await authController.logout(req.body)
+    resp.send(data)
+})
 
 module.exports = router;

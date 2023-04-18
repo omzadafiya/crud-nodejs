@@ -45,9 +45,9 @@ async function findCar(id) {
     } else {
         data = await carsCollection.find().toArray();
     }
-    const cars_item = data.map((item, index) => {
-        data[index]['image_url'] = base_url + item.image
-    })
+    // const cars_item = data.map((item, index) => {
+    //     data[index]['image_url'] = base_url + item.image
+    // })
     // base_url+item.image
     return data;
 }

@@ -9,7 +9,7 @@ const port = 3001;
 app.use(express.static('public'))
 async function main() {
     configRoutes(app);
-    app.listen(port, '192.168.1.8', async () => {
+    app.listen(port, '192.168.1.6', async () => {
         console.log(`Your server is running on http://localhost:${port}`);
     })
 }
