@@ -99,7 +99,13 @@ async function logout(data) {
             token: data.token
         }
     )
-    return "Logout successfully"
+    if(deleateData){
+        return "Logout successfully"
+    }
+    else{
+        "Unknown Error"
+    }
+    
 }
 
 module.exports = {

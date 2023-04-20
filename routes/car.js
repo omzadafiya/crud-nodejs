@@ -42,5 +42,12 @@ router.post('/uplode/:id', CarController.upload, async (req, resp) => {
 
 });
 
+router.post('/writeData', async (req, resp) => {
+    let data = await CarController.write_data()
+
+    resp.send(data);
+})
+
+
 module.exports = router;
 

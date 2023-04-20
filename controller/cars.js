@@ -2,10 +2,10 @@ const { ObjectId } = require("bson");
 const multer = require("multer");
 const mongoCollections = require("../config/mongoCollections");
 const cars = mongoCollections.cars;
+const dbConnection = require('../config/mongoConnection');
 const path = require("path")
 const url = require("url")
-
-
+const fs = require('fs');
 
 const base_url = "http://localhost:3001/images/Portfolio-pic4.jpg";
 
@@ -86,7 +86,7 @@ const upload = multer({
         },
 
         filename: function (req, file, callBack) {
-            callBack(null, file.originalname )
+            callBack(null, file.originalname)
         }
     }),
     fileFilter: function (req, file, callback) {
@@ -123,12 +123,51 @@ async function uplode_image(id, file) {
     })
 
 }
+async function write_data() {
 
+    // const carsCollection = await cars();
+    // let data = await carsCollection.find().toArray();
+
+
+    //     const userCollection = await User();
+    //     let userData = await userCollection.find().toArray();
+    //     console.log(userData)
+    //     fs.appendFile("car.json", JSON.stringify(data), () => {
+    //         console.log("done")
+    //     })
+    //     fs.appendFile("user.json", JSON.stringify(userData), () => {
+    //         console.log("done")
+    //     })
+
+    //     return 'test'
+    const db = await dbConnection();
+    let names = await db.listCollections().toArray()
+    collections = []
+   
+
+    names.forEach(collection_Names => {
+        collections.push(collection_Names.name)
+
+        // console.log(collection_Names.name)
+    });
+    let collection_data = []
+    for (let i = 0; i < collections.length; i++) {
+        collection_data[i] = await db.collection(collections[i]).find().toArray();
+        // console.log(collection_data)
+    }
+    try {
+        fs.writeFileSync('all_collecation.json', JSON.stringify(collection_data));
+    }
+    catch (error) {
+        console.log('Error writing to file', error)
+    }
+}
 module.exports = {
     addCar,
     findCar,
     updateCar,
     deleteCar,
     upload,
-    uplode_image
+    uplode_image,
+    write_data,
 };
