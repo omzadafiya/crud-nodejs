@@ -143,24 +143,27 @@ async function write_data() {
     const db = await dbConnection();
     let names = await db.listCollections().toArray()
     collections = []
-   
+
 
     names.forEach(collection_Names => {
         collections.push(collection_Names.name)
-
-        // console.log(collection_Names.name)
     });
-    let collection_data = []
-    for (let i = 0; i < collections.length; i++) {
-        collection_data[i] = await db.collection(collections[i]).find().toArray();
-        // console.log(collection_data)
-    }
-    try {
-        fs.writeFileSync('all_collecation.json', JSON.stringify(collection_data));
-    }
-    catch (error) {
-        console.log('Error writing to file', error)
-    }
+    // for (let i = 0; i < collections.length; i++) {
+    //     const item = await db.collection(collections[i]).find().toArray();
+    //     console.log(collections[i] + '.json', JSON.stringify(item))
+    //     try {
+    //         fs.appendFile(collections[i] + '.json', JSON.stringify(item), () => {
+    //             console.log("done")
+    //         })
+    //     } catch(error) {
+    //         console.log(error)
+    //     }
+    // }
+    collections.map(async (item, index) => {
+        const item = await db.collection(item).find().toArray();
+        console.log(index + '.json', JSON.stringify(item))
+        fs.appendFile(item + '.json', JSON.stringify(item))
+    })
 }
 module.exports = {
     addCar,

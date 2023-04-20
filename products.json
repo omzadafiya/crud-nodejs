@@ -1,0 +1,89 @@
+[
+    {
+        "_id": "6401b32e29dde553cfd5864e",
+        "name": "i-phon",
+        "brand": "apple",
+        "price": 1000,
+        "category": "mobile"
+    },
+    {
+        "_id": "6401b37229dde553cfd5864f",
+        "name": "s-123",
+        "brand": "samsung",
+        "price": 500,
+        "category": "mobile"
+    },
+    {
+        "_id": "6401d7fa9aae6ebb4c5c4bb1",
+        "name": "note-6",
+        "brand": "vivo",
+        "price": 2000,
+        "category": "mobile"
+    },
+    {
+        "_id": "6401db3615511b1d62d8d15b",
+        "name": "f-123",
+        "brand": "poco",
+        "price": 600,
+        "category": "mobile"
+    },
+    {
+        "_id": "6402f499a0f2dc3be5a79ffa",
+        "name": "prahar lathiya",
+        "city": "surat"
+    },
+    {
+        "_id": "6402f4bb08e9b1b169679a35",
+        "name": "om zadafiya",
+        "city": "surat"
+    },
+    {
+        "_id": "6403045fb4494c4aa8ec2a6a",
+        "name": "note-6",
+        "brand": "vivo",
+        "price": 350,
+        "category": "mobile"
+    },
+    {
+        "_id": "6403045fb4494c4aa8ec2a6c",
+        "name": "f-11",
+        "brand": "poco",
+        "price": 600,
+        "category": "mobile"
+    },
+    {
+        "_id": "64032610fd4ab20729c9193a",
+        "name": "m8",
+        "__v": 0
+    },
+    {
+        "_id": "6403270c2ae62a764b0db58d",
+        "name": "m8",
+        "price": 560,
+        "__v": 0
+    },
+    {
+        "_id": "640335338a63e39cde812b7a",
+        "name": "m-8",
+        "price": 660,
+        "brand": "LG",
+        "category": "mobile",
+        "__v": 0
+    },
+    {
+        "_id": "6405977c0b82e61233fd41d6",
+        "name": "m-53",
+        "price": 300,
+        "brand": "samsung",
+        "category": "mobile",
+        "__v": 0
+    },
+    {
+        "_id": "640597db66310b80db0f62cb",
+        "name": "y-53",
+        "price": 800,
+        "brand": "vivo",
+        "category": "mobile",
+        "__v": 0
+    }
+]
